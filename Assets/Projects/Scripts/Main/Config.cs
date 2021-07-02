@@ -69,11 +69,6 @@ public class Config : MonoBehaviour
         SaveData();
     }
 
-    private void OnApplicationQuit()
-    {
-        SaveData();
-    }
-
     public void SaveData()
     {
 #if UNITY_ANDROID || UNITY_IOS || UNITY_IPHONE
