@@ -10,7 +10,7 @@ public class UDPSent : MonoBehaviour
 {
     public static UDPSent Instance;
 
-    private string ip = "127.0.0.1";     //主机ip地址
+    private string ip = "192.168.6.206";     //主机ip地址
     private IPAddress ipAddress;
     private IPEndPoint endPoint;
     private Socket socket;
@@ -40,7 +40,7 @@ public class UDPSent : MonoBehaviour
             sendData = new byte[1024];                  //定义发送字节大小
             sendData = Encoding.Default.GetBytes(msg);  //对msg编码
             socket.SendTo(sendData, sendData.Length, SocketFlags.None, endPoint);    //发送信息
-            Debug.Log("发送消息==" + msg);
+            //Debug.Log("发送消息==" + msg);
         }
         catch
         {

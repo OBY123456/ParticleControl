@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class PolygonDrawer : MonoBehaviour
 {
     public static PolygonDrawer Instance;
@@ -30,7 +29,7 @@ public class PolygonDrawer : MonoBehaviour
 
     public bool IsColorSent, IsPosSent;
 
-    public string ColorStr, PosStr;
+    public string ColorStr, PosStr,TouchStr;
 
     public Color CurrentColor;
 
@@ -47,9 +46,10 @@ public class PolygonDrawer : MonoBehaviour
         InputPos = new float[4];
         InputColor = new Color[4];
         Center = transform.Find("圈圈").position;
-        PosStr = "a";
+        PosStr = "00";
         CurrentColor = Color.red;
         ColorStr = CurrentColor.ToString();
+        TouchStr = "0";
     }
 
     void Start()
@@ -60,6 +60,16 @@ public class PolygonDrawer : MonoBehaviour
     void Update()
     {
         Draw();
+
+        if (Input.mousePosition.y > (Screen.height - Screen.width))
+        {
+            TouchStr = "1";
+        }
+        else
+        {
+            TouchStr = "0";
+            UDPSent.Instance.Send(PosStr + "j" + ColorStr + "j" + TouchStr);
+        }
     }
 
     [ContextMenu("Draw")]
@@ -172,7 +182,7 @@ public class PolygonDrawer : MonoBehaviour
 
         ColorStr = color.ToString();
         if(!IsPosSent)
-        UDPSent.Instance.Send(PosStr + "j"+ ColorStr);
+        UDPSent.Instance.Send(PosStr + "j"+ ColorStr + "j" +TouchStr);
         //Debug.Log(color.ToString());
     }
 
@@ -184,10 +194,9 @@ public class PolygonDrawer : MonoBehaviour
         x = Mathf.Clamp(x, 0f, 1f);
         y = Mathf.Clamp(y, 0f, 1f);
 
-        Vector2 vector2 = new Vector2(x, y);
-        PosStr = vector2.ToString();
+        PosStr = "("+x.ToString("0.000") + ","+y.ToString("0.000" + ")");
         if (!IsColorSent)
-        UDPSent.Instance.Send(PosStr + "j"+ ColorStr);
+        UDPSent.Instance.Send(PosStr + "j"+ ColorStr + "j" +TouchStr);
     }
 
     private float Distance(float x, float y)

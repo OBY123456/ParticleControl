@@ -19,6 +19,7 @@ public class LineMove : MonoBehaviour
     private int finger = -1;
     Touch touch;
 
+    float z = 0.01f;
     private void Awake()
     {
         trans0 = transform.position;
@@ -38,7 +39,7 @@ public class LineMove : MonoBehaviour
     private void releasdHandler(object sender, EventArgs e)
     {
         PolygonDrawer.Instance.IsPosSent = false;
-        PolygonDrawer.Instance.PosStr = "a";
+        PolygonDrawer.Instance.PosStr = "00";
         Debug.Log("ËÉ¿ª");
         IsStart = false;
         transform.position = trans0;
@@ -97,7 +98,7 @@ public class LineMove : MonoBehaviour
             PolygonDrawer.Instance.GetPos(touch);
 
             transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, 0), 0.1f);
-            line.SetPosition(1, transform.position);
+            line.SetPosition(1, transform.position - new Vector3(0,0,0.1f));
         }
     }
 

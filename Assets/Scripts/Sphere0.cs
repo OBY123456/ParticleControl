@@ -103,7 +103,7 @@ public class Sphere0 : MonoBehaviour
             }
 
             Vector3 vector3 = Camera.main.ScreenToWorldPoint(touch.position);
-            Debug.Log("ID ==" + touch.fingerId);
+            //Debug.Log("ID ==" + touch.fingerId);
             float x = vector3.x;
             float y = vector3.y;
 
