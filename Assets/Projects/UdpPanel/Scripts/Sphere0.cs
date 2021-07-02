@@ -9,11 +9,10 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class Sphere0 : MonoBehaviour
 {
-    public Transform Sphere, Sphere1, Sphere2, Sphere3;
-
     public SpereType spereType;
 
     private Vector3 Pos;
+    private Vector2 ScreenPos;
 
     private float MinX = -3.6f;
     private float MaxX = 3.6f;
@@ -29,17 +28,7 @@ public class Sphere0 : MonoBehaviour
         GetComponent<ReleaseGesture>().Released += releasdHandler;
 
         Pos = transform.position;
-    }
-
-    private void Start()
-    {
-        if(PolygonDrawer.Instance)
-        {
-            Sphere = PolygonDrawer.Instance.vertices[0];
-            Sphere1 = PolygonDrawer.Instance.vertices[1];
-            Sphere2 = PolygonDrawer.Instance.vertices[3];
-            Sphere3 = PolygonDrawer.Instance.vertices[2];
-        }
+        ScreenPos = Camera.main.WorldToScreenPoint(transform.position);
     }
 
     private void releasdHandler(object sender, EventArgs e)
@@ -103,122 +92,32 @@ public class Sphere0 : MonoBehaviour
             }
 
             Vector3 vector3 = Camera.main.ScreenToWorldPoint(touch.position);
-            //Debug.Log("ID ==" + touch.fingerId);
             float x = vector3.x;
             float y = vector3.y;
 
             switch (spereType)
             {
                 case SpereType.Sphere:
-                    if (x >= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, Sphere1.position.x);
-                        y = Mathf.Clamp(y, Pos.y, MaxY);
-
-                        PolygonDrawer.Instance.GetColor(spereType,touch,x,y);
-                    }
-                    else if (x <= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, MinX, Sphere1.position.x);
-                        y = Mathf.Clamp(y, Pos.y, MaxY);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x <= Pos.x && y <= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, MinX, Pos.x);
-                        y = Mathf.Clamp(y, Sphere2.position.y, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x > Pos.x && y < Pos.y)
-                    {
-
-                    }
-
+                    x = Mathf.Clamp(x, MinX, Pos.x);
+                    y = Mathf.Clamp(y, Pos.y, MaxY);
                     break;
                 case SpereType.Sphere1:
-
-                    if (x >= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, MaxX);
-                        y = Mathf.Clamp(y, Pos.y, MaxY);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x <= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Sphere1.position.x, MaxX);
-                        y = Mathf.Clamp(y, Pos.y, MaxY);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x <= Pos.x && y <= Pos.y)
-                    {
-                        //x = Mathf.Clamp(x, MinX, Pos.x);
-                        //y = Mathf.Clamp(y, Down.position.y, Pos.y);
-                    }
-                    else if (x > Pos.x && y < Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, MaxX);
-                        y = Mathf.Clamp(y, Sphere3.position.y, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-
+                    x = Mathf.Clamp(x, Pos.x, MaxX);
+                    y = Mathf.Clamp(y, Pos.y, MaxY);
                     break;
                 case SpereType.Sphere2:
-
-                    if (x >= Pos.x && y >= Pos.y)
-                    {
-                        //x = Mathf.Clamp(x, Pos.x, MaxX);
-                        //y = Mathf.Clamp(y, Pos.y, Up.position.y);
-                    }
-                    else if (x <= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, MinX, Pos.x);
-                        y = Mathf.Clamp(y, Pos.y, Sphere1.position.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x <= Pos.x && y <= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, MinX, Pos.x);
-                        y = Mathf.Clamp(y, MinY, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x > Pos.x && y < Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, Sphere3.position.x);
-                        y = Mathf.Clamp(y, MinY, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-
+                    x = Mathf.Clamp(x, MinX, Pos.x);
+                    y = Mathf.Clamp(y, MinY, Pos.y);
                     break;
                 case SpereType.Sphere3:
-
-                    if (x >= Pos.x && y >= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, MaxX);
-                        y = Mathf.Clamp(y, Pos.y, Sphere1.position.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x <= Pos.x && y >= Pos.y)
-                    {
-                        //x = Mathf.Clamp(x, Left.position.x, MaxX);
-                        //y = Mathf.Clamp(y, Pos.y, MaxY);
-                    }
-                    else if (x <= Pos.x && y <= Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Sphere2.position.x, Pos.x);
-                        y = Mathf.Clamp(y, MinY, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-                    else if (x > Pos.x && y < Pos.y)
-                    {
-                        x = Mathf.Clamp(x, Pos.x, MaxX);
-                        y = Mathf.Clamp(y, MinY, Pos.y);
-                        PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
-                    }
-
+                    x = Mathf.Clamp(x, Pos.x, MaxX);
+                    y = Mathf.Clamp(y, MinY, Pos.y);
                     break;
                 default:
                     break;
             }
+
+            PolygonDrawer.Instance.GetColor(spereType, touch, x, y);
             transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, 0), 0.1f);
         }
     }

@@ -449,6 +449,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 6427950776169124868, guid: 64bfba84a8d31b84b96426a1ad543900,
+        type: 3}
+      propertyPath: SphereVet.x
+      value: 580
+      objectReference: {fileID: 0}
+    - target: {fileID: 6427950776169124868, guid: 64bfba84a8d31b84b96426a1ad543900,
+        type: 3}
+      propertyPath: SphereVet.y
+      value: 1476
+      objectReference: {fileID: 0}
     - target: {fileID: 4148777165668404986, guid: 64bfba84a8d31b84b96426a1ad543900,
         type: 3}
       propertyPath: offet.y

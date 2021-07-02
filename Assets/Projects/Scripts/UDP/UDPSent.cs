@@ -47,11 +47,11 @@ public class UDPSent : MonoBehaviour
 
     public void Init()
     {
-        if(Config.Instance)
-        {
-            ip = Config.Instance.configData.ip;
-            port = Config.Instance.configData.Port;
-        }
+        //if(Config.Instance)
+        //{
+        //    ip = Config.Instance.configData.ip;
+        //    port = Config.Instance.configData.Port;
+        //}
         ipAddress = IPAddress.Parse(ip);            //ip地址
         endPoint = new IPEndPoint(ipAddress, port);  //自定义端口号
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
