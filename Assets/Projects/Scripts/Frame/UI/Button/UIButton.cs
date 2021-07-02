@@ -14,10 +14,10 @@ public class UIButton : BaseButton
         canvasGroup.alpha = 0;
     }
 
-    public override void TriggerDown()
+    public override void TriggerClick()
     {
-        base.TriggerDown();
-        if(Input.touchCount <= 1)
+        base.TriggerClick();
+        if (Input.touchCount <= 1)
         {
             transform.localScale = Vector3.one * 1.2f;
             canvasGroup.alpha = 1;
