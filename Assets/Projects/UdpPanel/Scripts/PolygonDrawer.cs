@@ -60,18 +60,6 @@ public class PolygonDrawer : MonoBehaviour
     void Update()
     {
         Draw();
-        if(Input.touchCount > 0)
-        {
-            if (Input.mousePosition.y > (Screen.height - Screen.width))
-            {
-                TouchStr = "1";
-            }
-        }
-        else
-        {
-            TouchStr = "0";
-            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr);
-        }
     }
 
     [ContextMenu("Draw")]
@@ -215,5 +203,16 @@ public class PolygonDrawer : MonoBehaviour
     private string FormatColor(Color color)
     {
         return color.r.ToString("0.000") + "-" + color.g.ToString("0.000") + "-" + color.b.ToString("0.000") + "-" + color.a.ToString("0.000");
+    }
+
+    public void LineRelease()
+    {
+        IsPosSent = false;
+        PosStr = "0.000-0.000";
+        TouchStr = "0";
+        if (!IsColorSent && !IsPosSent)
+        {
+            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr);
+        }
     }
 }

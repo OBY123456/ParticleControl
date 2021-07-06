@@ -35,14 +35,12 @@ public class LineMove : MonoBehaviour
 
     private void releasdHandler(object sender, EventArgs e)
     {
-        if(PolygonDrawer.Instance)
-        {
-            PolygonDrawer.Instance.IsPosSent = false;
-            PolygonDrawer.Instance.PosStr = "0.000-0.000";
-        }
 
-        //Debug.Log("ËÉ¿ª");
         IsStart = false;
+        if (PolygonDrawer.Instance)
+        {
+            PolygonDrawer.Instance.LineRelease();
+        }
         transform.position = trans0.position;
         trans0.gameObject.SetActive(false);
         finger = -1;
@@ -61,6 +59,8 @@ public class LineMove : MonoBehaviour
         }
         trans0.gameObject.SetActive(true);
         IsStart = true;
+        if(PolygonDrawer.Instance)
+        PolygonDrawer.Instance.TouchStr = "1";
     }
 
     bool IsStart;
