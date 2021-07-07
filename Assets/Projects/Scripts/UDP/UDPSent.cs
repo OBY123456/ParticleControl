@@ -10,7 +10,7 @@ public class UDPSent : MonoBehaviour
 {
     public static UDPSent Instance;
 
-    private string ip = "192.168.6.206";     //主机ip地址
+    private string ip = "192.168.6.194";     //主机ip地址
     private int port = 8001;
     private IPAddress ipAddress;
     private IPEndPoint endPoint;
@@ -47,11 +47,11 @@ public class UDPSent : MonoBehaviour
 
     public void Init()
     {
-        if (Config.Instance)
-        {
-            ip = Config.Instance.configData.ip;
-            port = Config.Instance.configData.Port;
-        }
+        //if (Config.Instance)
+        //{
+        //    ip = Config.Instance.configData.ip;
+        //    port = Config.Instance.configData.Port;
+        //}
         ipAddress = IPAddress.Parse(ip);            //ip地址
         endPoint = new IPEndPoint(ipAddress, port);  //自定义端口号
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

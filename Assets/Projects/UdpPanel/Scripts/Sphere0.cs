@@ -22,6 +22,8 @@ public class Sphere0 : MonoBehaviour
     private int finger = -1;
     Touch touch;
 
+    private float Lenth;
+
     private void Awake()
     {
         GetComponent<PressGesture>().Pressed += pressHandler;
@@ -29,6 +31,23 @@ public class Sphere0 : MonoBehaviour
 
         Pos = transform.position;
         ScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+        switch (spereType)
+        {
+            case SpereType.Sphere:
+                Lenth = Mathf.Sqrt((float)(Math.Pow(MaxY - Pos.y, 2.0f) + Math.Pow(Pos.x - MinX, 2.0f)));
+                break;
+            case SpereType.Sphere1:
+                Lenth = Mathf.Sqrt((float)(Math.Pow(MaxY - Pos.y, 2.0f) + Math.Pow(MaxX - Pos.x, 2.0f)));
+                break;
+            case SpereType.Sphere2:
+                Lenth = Mathf.Sqrt((float)(Math.Pow(Pos.y - MinY, 2.0f) + Math.Pow(Pos.x - MinX, 2.0f))); 
+                break;
+            case SpereType.Sphere3:
+                Lenth = Mathf.Sqrt((float)(Math.Pow(Pos.y - MinY, 2.0f) + Math.Pow(MaxX - Pos.x, 2.0f)));
+                break;
+            default:
+                break;
+        }
     }
 
     private void releasdHandler(object sender, EventArgs e)
@@ -41,15 +60,19 @@ public class Sphere0 : MonoBehaviour
         {
             case SpereType.Sphere:
                 PolygonDrawer.Instance.InputPos[0] = 0f;
+                PolygonDrawer.Instance.Ratio[0] = 0f;
                 break;
             case SpereType.Sphere1:
                 PolygonDrawer.Instance.InputPos[1] = 0f;
+                PolygonDrawer.Instance.Ratio[1] = 0f;
                 break;
             case SpereType.Sphere2:
                 PolygonDrawer.Instance.InputPos[2] = 0f;
+                PolygonDrawer.Instance.Ratio[2] = 0f;
                 break;
             case SpereType.Sphere3:
                 PolygonDrawer.Instance.InputPos[3] = 0f;
+                PolygonDrawer.Instance.Ratio[3] = 0f;
                 break;
             default:
                 break;
@@ -100,18 +123,22 @@ public class Sphere0 : MonoBehaviour
                 case SpereType.Sphere:
                     x = Mathf.Clamp(x, MinX, Pos.x);
                     y = Mathf.Clamp(y, Pos.y, MaxY);
+                    PolygonDrawer.Instance.Ratio[0] = Mathf.Clamp(Mathf.Sqrt((float)(Math.Pow(x - Pos.x, 2.0f) + Math.Pow(y - Pos.y, 2.0f)))/Lenth,0,1);
                     break;
                 case SpereType.Sphere1:
                     x = Mathf.Clamp(x, Pos.x, MaxX);
                     y = Mathf.Clamp(y, Pos.y, MaxY);
+                    PolygonDrawer.Instance.Ratio[1] = Mathf.Clamp(Mathf.Sqrt((float)(Math.Pow(x - Pos.x, 2.0f) + Math.Pow(y - Pos.y, 2.0f))) / Lenth, 0, 1);
                     break;
                 case SpereType.Sphere2:
                     x = Mathf.Clamp(x, MinX, Pos.x);
                     y = Mathf.Clamp(y, MinY, Pos.y);
+                    PolygonDrawer.Instance.Ratio[2] = Mathf.Clamp(Mathf.Sqrt((float)(Math.Pow(x - Pos.x, 2.0f) + Math.Pow(y - Pos.y, 2.0f))) / Lenth, 0, 1);
                     break;
                 case SpereType.Sphere3:
                     x = Mathf.Clamp(x, Pos.x, MaxX);
                     y = Mathf.Clamp(y, MinY, Pos.y);
+                    PolygonDrawer.Instance.Ratio[3] = Mathf.Clamp(Mathf.Sqrt((float)(Math.Pow(x - Pos.x, 2.0f) + Math.Pow(y - Pos.y, 2.0f))) / Lenth, 0, 1);
                     break;
                 default:
                     break;

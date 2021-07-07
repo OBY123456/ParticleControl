@@ -552,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4d6f385bcfd464c96e98377d1c7e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsLog: 1
+  IsLog: 0
 --- !u!114 &559494794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,11 +816,13 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  Ratio: []
   IsColorSent: 0
   IsPosSent: 0
   ColorStr: RGBA(1.000, 0.000, 0.000, 1.000)
   PosStr: 00
   TouchStr: 
+  RatioStr: 
   CurrentColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1031223587
 Transform:

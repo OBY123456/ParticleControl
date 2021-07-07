@@ -24,12 +24,13 @@ public class PolygonDrawer : MonoBehaviour
 
     public Color[] InputColor;
     public float[] InputPos;
+    public float[] Ratio;
 
     Vector2 Center;
 
     public bool IsColorSent, IsPosSent;
 
-    public string ColorStr, PosStr,TouchStr;
+    public string ColorStr, PosStr,TouchStr, RatioStr;
 
     public Color CurrentColor;
 
@@ -45,11 +46,14 @@ public class PolygonDrawer : MonoBehaviour
         }
         InputPos = new float[4];
         InputColor = new Color[4];
+        Ratio = new float[4];
         Center = transform.Find("圈圈").position;
         PosStr = "0.000-0.000";
         CurrentColor = Color.red;
         ColorStr = FormatColor(CurrentColor);
         TouchStr = "0";
+        RatioStr = "0.0000";
+        UDPSent.Instance.Send("B-" + ColorStr);
     }
 
     void Start()
@@ -100,6 +104,9 @@ public class PolygonDrawer : MonoBehaviour
         CurrentValue = num;
         CurrentColor = color;
         ColorStr = FormatColor(CurrentColor);
+        UIManager.GetPanel<MainPanel>(WindowTypeEnum.ForegroundScreen).SetImageColor(color);
+        UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);
+        UDPSent.Instance.Send( "B-" + ColorStr);
     }
 
     void ReadTex(Texture2D tex)
@@ -170,10 +177,11 @@ public class PolygonDrawer : MonoBehaviour
                 }
             }
         }
-
+        UIManager.GetPanel<MainPanel>(WindowTypeEnum.ForegroundScreen).SetImageColor(color);
         ColorStr = FormatColor(color);
-        if(!IsPosSent)
-        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr);
+        RatioStr = (Ratio.Sum() / 4).ToString("0.0000");
+        if (!IsPosSent)
+        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr + "-" + RatioStr);
         //Debug.Log(color.ToString());
     }
 
@@ -187,7 +195,7 @@ public class PolygonDrawer : MonoBehaviour
 
         PosStr = x.ToString("0.000") + "-"+y.ToString("0.000");
         if (!IsColorSent)
-        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr);
+        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr + "-" + RatioStr);
     }
 
     private float Distance(float x, float y)
@@ -197,7 +205,14 @@ public class PolygonDrawer : MonoBehaviour
 
     public void Release()
     {
-        ColorStr = FormatColor(CurrentColor);
+        if(!IsColorSent)
+        {
+            ColorStr = FormatColor(CurrentColor);
+            UIManager.GetPanel<MainPanel>(WindowTypeEnum.ForegroundScreen).SetImageColor(CurrentColor);
+            RatioStr = "0.0000";
+            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);       
+        }
+        
     }
 
     private string FormatColor(Color color)
@@ -212,7 +227,7 @@ public class PolygonDrawer : MonoBehaviour
         TouchStr = "0";
         if (!IsColorSent && !IsPosSent)
         {
-            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr);
+            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);
         }
     }
 }

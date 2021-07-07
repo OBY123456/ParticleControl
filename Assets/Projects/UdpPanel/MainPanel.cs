@@ -9,11 +9,13 @@ using UnityEngine.UI;
 public class MainPanel : BasePanel
 {
     public UIButton[] buttons;
+    public Image image;
 
     public override void InitFind()
     {
         base.InitFind();
         buttons = FindTool.FindChildNode(transform,"Buttons").GetComponentsInChildren<UIButton>();
+        image = FindTool.FindChildComponent<Image>(transform, "Image (1)");
     }
 
     public override void InitEvent()
@@ -39,5 +41,10 @@ public class MainPanel : BasePanel
                 }
             }
         }
+    }
+
+    public void SetImageColor(Color color)
+    {
+        image.color = color;
     }
 }
