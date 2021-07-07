@@ -10,6 +10,7 @@ public class MainPanel : BasePanel
 {
     public UIButton[] buttons;
     public Image image;
+    public Color[] colors;
 
     public override void InitFind()
     {
@@ -32,7 +33,7 @@ public class MainPanel : BasePanel
         if(PolygonDrawer.Instance && Input.touchCount <= 1)
         {
             int num = int.Parse(obj.name);
-            PolygonDrawer.Instance.SetMaterial(num, obj.GetComponent<Image>().color);
+            PolygonDrawer.Instance.SetMaterial(num, colors[num]);
             foreach (var item in buttons)
             {
                 if(!obj.name.Contains(item.name))
@@ -48,3 +49,5 @@ public class MainPanel : BasePanel
         image.color = color;
     }
 }
+
+
