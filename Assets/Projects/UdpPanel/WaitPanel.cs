@@ -5,6 +5,7 @@ using MTFrame;
 using UnityEngine.Video;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class WaitPanel : BasePanel
 {
@@ -15,6 +16,15 @@ public class WaitPanel : BasePanel
     private float BackTime = 180;
     private float Back_Time;
     private bool IsBack;
+
+    protected override void Start()
+    {
+        base.Start();
+        if(Config.Instance)
+        {
+            BackTime = Config.Instance.configData.Backtime;
+        }
+    }
 
     public override void InitFind()
     {
@@ -31,6 +41,8 @@ public class WaitPanel : BasePanel
         {
             VideoCanvas.blocksRaycasts = false;
             VideoCanvas.DOFade(0, 0.5f).SetEase(Ease.Linear).OnComplete(() => {
+                PolygonDrawer.Instance.StateStr = "1";
+                PolygonDrawer.Instance.SentMsg();
                 UIState.SwitchPanel(PanelName.MainPanel);
             });    
         });
@@ -66,7 +78,7 @@ public class WaitPanel : BasePanel
         if (Back_Time > 0 && IsBack)
         {
             Back_Time -= Time.deltaTime;
-            LogMsg.Instance.Log(Back_Time.ToString());
+            //LogMsg.Instance.Log(Back_Time.ToString());
             if (Back_Time <= 0)
             {
                 IsBack = false;
@@ -74,7 +86,10 @@ public class WaitPanel : BasePanel
                 {
                     Config.Instance.Mesh.SetActive(false);
                 }
+                PolygonDrawer.Instance.StateStr = "0";
+                PolygonDrawer.Instance.SentMsg();
                 UIState.SwitchPanel(PanelName.WaitPanel);
+                GC.Collect();
             }
             if (Input.touchCount > 0)
             {

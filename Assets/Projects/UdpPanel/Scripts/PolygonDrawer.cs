@@ -30,7 +30,7 @@ public class PolygonDrawer : MonoBehaviour
 
     public bool IsColorSent, IsPosSent;
 
-    public string ColorStr, PosStr,TouchStr, RatioStr;
+    public string ColorStr, PosStr,TouchStr, RatioStr,StateStr;
 
     public Color CurrentColor;
 
@@ -56,12 +56,14 @@ public class PolygonDrawer : MonoBehaviour
         ColorStr = FormatColor(CurrentColor);
         TouchStr = "0";
         RatioStr = "0.0000";
-        UDPSent.Instance.Send("B-" + ColorStr);
+        StateStr = "0";
+        
     }
 
     void Start()
     {
         Draw();
+        UDPSent.Instance.Send("B-" + ColorStr);
     }
 
     void Update()
@@ -108,7 +110,7 @@ public class PolygonDrawer : MonoBehaviour
         CurrentColor = color;
         ColorStr = FormatColor(CurrentColor);
         UIManager.GetPanel<MainPanel>(WindowTypeEnum.ForegroundScreen).SetImageColor(color);
-        UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);
+        SentMsg();
         UDPSent.Instance.Send( "B-" + ColorStr);
     }
 
@@ -184,7 +186,7 @@ public class PolygonDrawer : MonoBehaviour
         ColorStr = FormatColor(color);
         RatioStr = (Ratio.Sum() / 4).ToString("0.0000");
         if (!IsPosSent)
-        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr + "-" + RatioStr);
+            SentMsg();
         //Debug.Log(color.ToString());
     }
 
@@ -198,7 +200,7 @@ public class PolygonDrawer : MonoBehaviour
 
         PosStr = x.ToString("0.000") + "-"+y.ToString("0.000");
         if (!IsColorSent)
-        UDPSent.Instance.Send(PosStr + "-"+ ColorStr + "-" +TouchStr + "-" + RatioStr);
+            SentMsg();
     }
 
     private float Distance(float x, float y)
@@ -213,7 +215,7 @@ public class PolygonDrawer : MonoBehaviour
             ColorStr = FormatColor(CurrentColor);
             UIManager.GetPanel<MainPanel>(WindowTypeEnum.ForegroundScreen).SetImageColor(CurrentColor);
             RatioStr = "0.0000";
-            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);       
+            SentMsg();       
         }
         
     }
@@ -230,7 +232,12 @@ public class PolygonDrawer : MonoBehaviour
         TouchStr = "0";
         if (!IsColorSent && !IsPosSent)
         {
-            UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr);
+            SentMsg();
         }
+    }
+
+    public void SentMsg()
+    {
+        UDPSent.Instance.Send(PosStr + "-" + ColorStr + "-" + TouchStr + "-" + RatioStr + "-" + StateStr);
     }
 }
