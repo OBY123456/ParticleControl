@@ -100,8 +100,8 @@ public class LineMove : MonoBehaviour
             if(PolygonDrawer.Instance)
             PolygonDrawer.Instance.GetPos(touch);
 
-            transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, 0), 0.09f);
-            //transform.position = new Vector3(x, y, 0);
+            //transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, 0), 0.09f);
+            transform.position = new Vector3(x, y, 0);
             line.SetPosition(1, transform.position);
         }
     }

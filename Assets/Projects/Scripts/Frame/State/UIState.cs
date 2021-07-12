@@ -9,6 +9,7 @@ namespace MTFrame
 {
     public enum PanelName
     {
+        WaitPanel,
         MainPanel,
     }
 
@@ -54,6 +55,9 @@ public class UIState : BaseState
             PanelName panelName = parameteData.GetParameter<PanelName>()[0];
             switch (panelName)
             {
+                case PanelName.WaitPanel:
+                    CurrentTask.ChangeTask(new WaitTask(this));
+                    break;
                 case PanelName.MainPanel:
                     CurrentTask.ChangeTask(new MainTask(this));
                     break;
@@ -66,7 +70,7 @@ public class UIState : BaseState
     public override void Enter()
     {
         base.Enter();
-        CurrentTask.ChangeTask(new MainTask(this));
+        CurrentTask.ChangeTask(new WaitTask(this));
     }
 
 

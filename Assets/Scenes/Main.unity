@@ -548,6 +548,11 @@ PrefabInstance:
       propertyPath: offet.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1369072810822256574, guid: 64bfba84a8d31b84b96426a1ad543900,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4148777165668404986, guid: 64bfba84a8d31b84b96426a1ad543900, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64bfba84a8d31b84b96426a1ad543900, type: 3}
@@ -619,6 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545ea338678eb8545a8e52b5ff564e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mesh: {fileID: 1031223585}
 --- !u!114 &559494793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,7 +1337,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.21500003
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0.00000047683716, z: 0}
 --- !u!114 &1434239070
 MonoBehaviour:

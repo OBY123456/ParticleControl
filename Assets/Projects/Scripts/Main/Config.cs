@@ -33,6 +33,8 @@ public class Config : MonoBehaviour
     private string File_name = "config.txt";
     private string Path;
 
+    public GameObject Mesh;
+
     private void Awake()
     {
         Instance = this;

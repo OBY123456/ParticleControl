@@ -34,6 +34,9 @@ public class PolygonDrawer : MonoBehaviour
 
     public Color CurrentColor;
 
+    //贴图大小
+    float value = 256f;
+
     private void Awake()
     {
         Instance = this;
@@ -146,7 +149,7 @@ public class PolygonDrawer : MonoBehaviour
             x = Mathf.Clamp(x, 0f, 1f);
             y = Mathf.Clamp(y, 0f, 1f);
 
-            int num = Mathf.RoundToInt((Mathf.Clamp(700 * y, 1, 700) - 1) * 700 + (Mathf.Clamp(700 * x, 1, 700) - 1));
+            int num = Mathf.RoundToInt((Mathf.Clamp(value * y, 1, value) - 1) * value + (Mathf.Clamp(value * x, 1, value) - 1));
             color = lisColor[CurrentValue][num];
             switch (spereType)
             {
