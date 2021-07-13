@@ -34,20 +34,6 @@ public class WaitPanel : BasePanel
         
     }
 
-    private IEnumerator HideStandardInput()
-    {
-        yield return new WaitForSeconds(0.1f);
-        Camera.main.GetComponent<StandardLayer>().HitScreenSpaceUI = false;
-        Camera.main.GetComponent<StandardLayer>().enabled = false;
-    }
-
-    private IEnumerator OpenStandardInput()
-    {
-        yield return new WaitForSeconds(0.1f);
-        Camera.main.GetComponent<StandardLayer>().HitScreenSpaceUI = true;
-        Camera.main.GetComponent<StandardLayer>().enabled = true;
-    }
-
     public override void InitFind()
     {
         base.InitFind();
@@ -73,8 +59,6 @@ public class WaitPanel : BasePanel
 
         SetBtn.onClick.AddListener(() => {
             IsCount = true;
-            //鼠标点击的话点一次+1，用手机触屏点的话，点一次+2
-            //原因找到了，插件TouchScript导致的
             Count++;
             if(Count >= 10)
             {
@@ -93,7 +77,6 @@ public class WaitPanel : BasePanel
         {
             Config.Instance.Mesh.SetActive(false);
         }
-        StartCoroutine(HideStandardInput());
     }
 
     public override void Hide()
@@ -107,7 +90,6 @@ public class WaitPanel : BasePanel
             Config.Instance.Mesh.SetActive(true);
         }
         videoPlayer.targetTexture.Release();
-        StartCoroutine(OpenStandardInput());
     }
 
     private void Update()
