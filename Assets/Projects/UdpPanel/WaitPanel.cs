@@ -6,16 +6,22 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using TouchScript.Layers;
 
 public class WaitPanel : BasePanel
 {
     public VideoPlayer videoPlayer;
-    public Button button;
+    public Button button,SetBtn;
     public CanvasGroup VideoCanvas;
 
-    private float BackTime = 180;
+    public float BackTime = 180;
     private float Back_Time;
     private bool IsBack;
+
+    public SettingPanel settingPanel;
+    private int Count = 0;
+    private bool IsCount;
+    private float CountDown = 10f;
 
     protected override void Start()
     {
@@ -24,6 +30,22 @@ public class WaitPanel : BasePanel
         {
             BackTime = Config.Instance.configData.Backtime;
         }
+        settingPanel.Hide();
+        
+    }
+
+    private IEnumerator HideStandardInput()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Camera.main.GetComponent<StandardLayer>().HitScreenSpaceUI = false;
+        Camera.main.GetComponent<StandardLayer>().enabled = false;
+    }
+
+    private IEnumerator OpenStandardInput()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Camera.main.GetComponent<StandardLayer>().HitScreenSpaceUI = true;
+        Camera.main.GetComponent<StandardLayer>().enabled = true;
     }
 
     public override void InitFind()
@@ -31,7 +53,9 @@ public class WaitPanel : BasePanel
         base.InitFind();
         videoPlayer = FindTool.FindChildComponent<VideoPlayer>(transform, "Video Player");
         button = FindTool.FindChildComponent<Button>(transform, "Video Player");
+        SetBtn = FindTool.FindChildComponent<Button>(transform, "button");
         VideoCanvas = FindTool.FindChildComponent<CanvasGroup>(transform, "Video Player");
+        settingPanel = FindTool.FindChildComponent<SettingPanel>(transform, "SettingPanel");
     }
 
     public override void InitEvent()
@@ -46,6 +70,17 @@ public class WaitPanel : BasePanel
                 UIState.SwitchPanel(PanelName.MainPanel);
             });    
         });
+
+        SetBtn.onClick.AddListener(() => {
+            IsCount = true;
+            //鼠标点击的话点一次+1，用手机触屏点的话，点一次+2
+            //原因找到了，插件TouchScript导致的
+            Count++;
+            if(Count >= 10)
+            {
+                Count = 10;
+            }
+        });
     }
 
     public override void Open()
@@ -58,6 +93,7 @@ public class WaitPanel : BasePanel
         {
             Config.Instance.Mesh.SetActive(false);
         }
+        StartCoroutine(HideStandardInput());
     }
 
     public override void Hide()
@@ -71,6 +107,7 @@ public class WaitPanel : BasePanel
             Config.Instance.Mesh.SetActive(true);
         }
         videoPlayer.targetTexture.Release();
+        StartCoroutine(OpenStandardInput());
     }
 
     private void Update()
@@ -94,6 +131,25 @@ public class WaitPanel : BasePanel
             if (Input.touchCount > 0)
             {
                 Back_Time = BackTime;
+            }
+        }
+
+        if(IsCount && CountDown > 0)
+        {
+            CountDown -= Time.deltaTime;
+            if(Count == 10)
+            {
+                IsCount = false;
+                CountDown = 10f;
+                Count = 0;
+                settingPanel.Open();
+            }
+
+            if(CountDown <= 0)
+            {
+                IsCount = false;
+                CountDown = 10f;
+                Count = 0;
             }
         }
     }
