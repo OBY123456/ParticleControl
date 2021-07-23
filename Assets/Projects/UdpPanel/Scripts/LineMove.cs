@@ -67,21 +67,21 @@ public class LineMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    Vector3 ve = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-        //    transform.position = new Vector3(ve.x, ve.y, 0);
-        //    line.SetPosition(1, transform.position);
-        //}
         if (IsStart && finger != -1)
         {
-
-            for (int i = 0; i < Input.touches.Length; i++)
+            try
             {
-                if (Input.touches[i].fingerId == finger)
+                for (int i = 0; i < Input.touches.Length; i++)
                 {
-                    touch = Input.touches[i];
+                    if (Input.touches[i].fingerId == finger)
+                    {
+                        touch = Input.touches[i];
+                    }
                 }
+            }
+            catch
+            {
+                finger = -1;
             }
 
             if (PolygonDrawer.Instance &&!PolygonDrawer.Instance.IsColorSent)

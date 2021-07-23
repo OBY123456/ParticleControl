@@ -100,13 +100,19 @@ public class Sphere0 : MonoBehaviour
     {
         if (IsStart && finger != -1)
         {
-
-            for (int i = 0; i < Input.touches.Length; i++)
+            try
             {
-                if (Input.touches[i].fingerId == finger)
+                for (int i = 0; i < Input.touches.Length; i++)
                 {
-                    touch = Input.touches[i];
+                    if (Input.touches[i].fingerId == finger)
+                    {
+                        touch = Input.touches[i];
+                    }
                 }
+            }
+            catch
+            {
+                finger = -1;
             }
 
             if (!PolygonDrawer.Instance.IsPosSent)
