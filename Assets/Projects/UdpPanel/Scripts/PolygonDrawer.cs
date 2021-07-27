@@ -68,25 +68,34 @@ public class PolygonDrawer : MonoBehaviour
 
     void Update()
     {
+        if(Input.touchCount > 0)
         Draw();
     }
+
+    //在外面定义好，能重复使用，减少消耗
+    Vector2[] vertices2D;
+    Vector3[] vertices3D;
+    Vector3 vertice;
+    Triangulator tr;
+    int[] triangles;
+    Mesh mesh;
 
     [ContextMenu("Draw")]
     public void Draw()
     {
-        Vector2[] vertices2D = new Vector2[vertices.Length];
-        Vector3[] vertices3D = new Vector3[vertices.Length];
+        vertices2D = new Vector2[vertices.Length];
+        vertices3D = new Vector3[vertices.Length];
         for (int i = 0; i < vertices.Length; i++)
         {
-            Vector3 vertice = vertices[i].localPosition;
+            vertice = vertices[i].localPosition;
             vertices2D[i] = new Vector2(vertice.x, vertice.y);
             vertices3D[i] = vertice;
         }
 
-        Triangulator tr = new Triangulator(vertices2D);
-        int[] triangles = tr.Triangulate();
+        tr = new Triangulator(vertices2D);
+        triangles = tr.Triangulate();
 
-        Mesh mesh = new Mesh();
+        mesh = new Mesh();
         mesh.vertices = vertices3D;
         mesh.triangles = triangles;
         mesh.uv = vertices2D;
